@@ -28,11 +28,11 @@ func main() {
 	}
 
 	// Create a new random number generator
-	r := rand.New(rand.NewSource(int64(input.Seed)))
+	r := rand.New(rand.NewSource(input.Seed))
 
 	// Create a new Output struct
 	output := Output{
-		RandomNumber: r.Int63n(int64(input.Max)),
+		RandomNumber: r.Int63n(input.Max),
 	}
 
 	// Create json
