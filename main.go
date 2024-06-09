@@ -2,7 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"math/rand/v2"
+	"math/rand"
+	"os"
+	"strconv"
 )
 
 type Output struct {
@@ -11,11 +13,25 @@ type Output struct {
 
 func main() {
 	// Seed the random number generator with a random number
-	n := rand.Int64N(32)
+	seed, err := strconv.Atoi(os.Args[1])
+	if err != nil {
+		println("Error converting seed to int:", err)
+		return
+	}
+
+	// Get the max number
+	max, err := strconv.Atoi(os.Args[2])
+	if err != nil {
+		println("Error converting seed to int:", err)
+		return
+	}
+
+	// Create a new random number generator
+	r := rand.New(rand.NewSource(int64(seed)))
 
 	// Create a new Output struct
 	output := Output{
-		RandomNumber: n,
+		RandomNumber: r.Int63n(int64(max)),
 	}
 
 	// Create json
