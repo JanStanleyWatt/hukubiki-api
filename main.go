@@ -6,12 +6,12 @@ import (
 )
 
 type Output struct {
-	RandomNumber int `json:"randomNumber"`
+	RandomNumber int64 `json:"randomNumber"`
 }
 
 func main() {
 	// Seed the random number generator with a random number
-	n := rand.IntN(32)
+	n := rand.Int64N(32)
 
 	// Create a new Output struct
 	output := Output{
