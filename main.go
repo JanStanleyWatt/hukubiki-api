@@ -37,7 +37,7 @@ func main() {
 	// Create json
 	jsonOutput, err := json.Marshal(&output)
 	if err != nil {
-		println("Error marshalling to JSON:", err)
+		println("Error marshalling to JSON:", err.Error())
 		return
 	}
 
