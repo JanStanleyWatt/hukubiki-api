@@ -2,17 +2,14 @@ package main
 
 import (
 	"encoding/json"
-	"math/rand"
 	"os"
+
+	"github.com/JanStanleyWatt/hukubiki-api/hukubiki"
 )
 
 type Input struct {
 	Seed int64 `json:"seed"`
 	Max  int64 `json:"max"`
-}
-
-type Output struct {
-	RandomNumber int64 `json:"randomNumber"`
 }
 
 func main() {
@@ -27,13 +24,7 @@ func main() {
 		return
 	}
 
-	// Create a new random number generator
-	r := rand.New(rand.NewSource(input.Seed))
-
-	// Create a new Output struct
-	output := Output{
-		RandomNumber: r.Int63n(input.Max),
-	}
+	output := hukubiki.Int64n(input.Seed, input.Max)
 
 	// Create json
 	jsonOutput, err := json.Marshal(&output)
