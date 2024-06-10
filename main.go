@@ -1,11 +1,6 @@
 package main
 
-import (
-	"encoding/json"
-	"os"
-
-	"github.com/JanStanleyWatt/hukubiki-api/hukubiki"
-)
+import "net/http"
 
 type Input struct {
 	Seed int64 `json:"seed"`
@@ -13,25 +8,13 @@ type Input struct {
 }
 
 func main() {
-	// Read the json from the command line
-	j := os.Args[1]
-
-	// Unmarshal the json
-	var input Input
-	if err := json.Unmarshal([]byte(j), &input); err != nil {
-		println("Error unmarshalling JSON:", err.Error())
-		return
+	server := http.Server{
+		Addr:    ":8000",
+		Handler: nil,
 	}
 
-	output := hukubiki.Int64n(input.Seed, input.Max)
+	http.HandleFunc("/int64n", func(w http.ResponseWriter, r *http.Request) {})
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {})
 
-	// Create json
-	jsonOutput, err := json.Marshal(&output)
-	if err != nil {
-		println("Error marshalling to JSON:", err.Error())
-		return
-	}
-
-	// Print the json
-	println(string(jsonOutput))
+	server.ListenAndServe()
 }
