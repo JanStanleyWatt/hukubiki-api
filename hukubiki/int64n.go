@@ -2,13 +2,13 @@ package hukubiki
 
 import "math/rand"
 
-type JsonInt64N struct {
+type jsonInt64N struct {
 	RandomNumber int64 `json:"randomNumber"`
 }
 
-func Int64n(seed, max int64) JsonInt64N {
+func Int64n(seed, max int64) jsonInt64N {
 	r := rand.New(rand.NewSource(seed))
-	return JsonInt64N{
+	return jsonInt64N{
 		RandomNumber: r.Int63n(max),
 	}
 }
