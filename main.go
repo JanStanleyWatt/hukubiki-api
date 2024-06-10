@@ -3,7 +3,8 @@ package main
 import (
 	"net/http"
 
-	"github.com/JanStanleyWatt/hukubiki-api/hukubiki"
+	"github.com/JanStanleyWatt/hukubiki-api/api"
+	"github.com/JanStanleyWatt/hukubiki-api/route"
 )
 
 func main() {
@@ -12,8 +13,8 @@ func main() {
 		Handler: nil,
 	}
 
-	http.HandleFunc("/int64n", hukubiki.Int64n)
-	http.HandleFunc("/", hukubiki.Usage)
+	http.HandleFunc("/int64n", api.Int64n)
+	http.HandleFunc("/", route.Usage)
 
 	server.ListenAndServe()
 }

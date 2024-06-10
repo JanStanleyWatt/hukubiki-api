@@ -1,4 +1,4 @@
-package hukubiki
+package route
 
 import (
 	"encoding/json"

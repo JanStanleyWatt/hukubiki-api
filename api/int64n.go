@@ -1,4 +1,4 @@
-package hukubiki
+package api
 
 import (
 	"encoding/json"
