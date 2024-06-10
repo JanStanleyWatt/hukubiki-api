@@ -10,7 +10,7 @@ type jsonUsage struct {
 	Description string `json:"description"`
 }
 
-func Usage(w http.ResponseWriter, r *http.Request) {
+func ResponseUsage(w http.ResponseWriter, r *http.Request) {
 	usage := jsonUsage{
 		Description: "`hukubiki` is a random number generator.",
 	}

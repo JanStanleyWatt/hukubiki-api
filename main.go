@@ -14,7 +14,7 @@ func main() {
 	}
 
 	http.HandleFunc("/int64n", api.Int64n)
-	http.HandleFunc("/", route.Usage)
+	http.HandleFunc("/", route.ResponseUsage)
 
 	server.ListenAndServe()
 }
