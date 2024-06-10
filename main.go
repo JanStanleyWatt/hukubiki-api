@@ -14,12 +14,11 @@ type Input struct {
 
 func main() {
 	// Read the json from the command line
-	var input Input
 	j := os.Args[1]
 
 	// Unmarshal the json
-	err := json.Unmarshal([]byte(j), &input)
-	if err != nil {
+	var input Input
+	if err := json.Unmarshal([]byte(j), &input); err != nil {
 		println("Error unmarshalling JSON:", err.Error())
 		return
 	}
