@@ -1,6 +1,10 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/JanStanleyWatt/hukubiki-api/hukubiki"
+)
 
 type Input struct {
 	Seed int64 `json:"seed"`
@@ -14,7 +18,7 @@ func main() {
 	}
 
 	http.HandleFunc("/int64n", func(w http.ResponseWriter, r *http.Request) {})
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {})
+	http.HandleFunc("/", hukubiki.Usage)
 
 	server.ListenAndServe()
 }
