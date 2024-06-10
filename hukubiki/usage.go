@@ -1,13 +1,12 @@
 package hukubiki
 
-type JsonUsage struct {
+type jsonUsage struct {
 	Description string `json:"description"`
 }
 
-func Usage() JsonUsage {
-	usage := JsonUsage{
-		Description: "Usage: hukubiki <json>",
+func Usage() jsonUsage {
+	usage := jsonUsage{
+		Description: "`hukubiki` is a random number generator.",
 	}
-
 	return usage
 }
