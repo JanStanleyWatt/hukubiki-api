@@ -1,4 +1,4 @@
-package route
+package api
 
 import (
 	"encoding/json"
@@ -6,12 +6,12 @@ import (
 	"net/http"
 )
 
-type jsonUsage struct {
+type responseUsage struct {
 	Description string `json:"description"`
 }
 
-func ResponseUsage(w http.ResponseWriter, r *http.Request) {
-	usage := jsonUsage{
+func Usage(w http.ResponseWriter, r *http.Request) {
+	usage := responseUsage{
 		Description: "`hukubiki` is a random number generator.",
 	}
 
