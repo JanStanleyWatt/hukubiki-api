@@ -11,41 +11,40 @@ type jsonError struct {
 	Error      string `json:"error"`
 }
 
+const CONTENT_TYPE_JSON = "application/json; charset=utf-8"
+
 // Jsonの入力を受け取るヘルパ関数。リクエストのヘッダのうち、Content-Typeがapplication/jsonであることを要求する
-func jsonInput(w http.ResponseWriter, r *http.Request, in interface{}) {
+func jsonInput(r *http.Request, in interface{}) error {
 	// リクエストのヘッダをチェックし、要件に合わなければエラーレスポンスをJsonで返す
-	if r.Header.Get("Content-Type") != "application/json; charset=utf-8" {
-		err := errors.New("Content-Type must be application/json")
-		jsonErrorOutput(w, http.StatusBadRequest, err)
-		return
+	if r.Header.Get("Content-Type") != CONTENT_TYPE_JSON {
+		return errors.New("Content-Type must be application/json")
 	}
 
 	// リクエストのボディをデコード、エラーがあればエラーレスポンスをJsonで返す
 	if err := json.NewDecoder(r.Body).Decode(in); err != nil {
-		jsonErrorOutput(w, http.StatusBadRequest, err)
-		return
+		return err
 	}
+
+	return nil
 }
 
 // Jsonへの出力を行うヘルパ関数
-func jsonOutput(w http.ResponseWriter, out interface{}) {
+func jsonOutput(w http.ResponseWriter, out interface{}) error {
 	// レスポンスヘッダを設定
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.Header().Set("Content-Type", CONTENT_TYPE_JSON)
 
 	// レスポンスボディをエンコード、エラーがあればエラーレスポンスを返す
 	if err := json.NewEncoder(w).Encode(out); err != nil {
-		jsonErrorOutput(w, http.StatusInternalServerError, err)
-		return
+		return err
 	}
 
-	// レスポンスを返す
-	w.WriteHeader(http.StatusOK)
+	return nil
 }
 
-// Jsonのエラーレスポンスを返すヘルパ関数
+// Jsonのエラーレスポンスを返すヘルパ関数。APIのエラーはこの関数を使ってハンドリングする
 func jsonErrorOutput(w http.ResponseWriter, statusCode int, err error) {
 	// エラーレスポンスをJsonで返す
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.Header().Set("Content-Type", CONTENT_TYPE_JSON)
 	w.WriteHeader(statusCode)
 	json.NewEncoder(w).Encode(jsonError{
 		StatusCode: statusCode,
