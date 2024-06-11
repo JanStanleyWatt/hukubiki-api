@@ -11,7 +11,7 @@ type jsonError struct {
 	Error      string `json:"error"`
 }
 
-// Jsonの入力を受け取るヘルパ関数
+// Jsonの入力を受け取るヘルパ関数。リクエストのヘッダのうち、Content-Typeがapplication/jsonであることを要求する
 func jsonInput(w http.ResponseWriter, r *http.Request, in interface{}) {
 	// リクエストのヘッダをチェックし、要件に合わなければエラーレスポンスをJsonで返す
 	if r.Header.Get("Content-Type") != "application/json; charset=utf-8" {
