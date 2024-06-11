@@ -12,7 +12,7 @@ func main() {
 		Handler: nil,
 	}
 
-	http.HandleFunc("/int64n", api.Int64n)
+	http.HandleFunc("/int64/n", api.Int64n)
 	http.HandleFunc("/", api.Usage)
 
 	server.ListenAndServe()
