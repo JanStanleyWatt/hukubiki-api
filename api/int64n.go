@@ -7,11 +7,11 @@ import (
 	"net/http"
 )
 
-type jsonInt64N struct {
+type responseInt64n struct {
 	RandomNumber int64 `json:"randomNumber"`
 }
 
-type request struct {
+type requestInt64n struct {
 	Seed int64 `json:"seed"`
 	Max  int64 `json:"max"`
 }
@@ -19,7 +19,7 @@ type request struct {
 func Int64n(w http.ResponseWriter, r *http.Request) {
 
 	// Read json from request
-	var in request
+	var in requestInt64n
 
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -27,7 +27,7 @@ func Int64n(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Generate random number
-	j := jsonInt64N{
+	j := responseInt64n{
 		RandomNumber: rand.New(rand.NewSource(in.Seed)).Int63n(in.Max),
 	}
 
