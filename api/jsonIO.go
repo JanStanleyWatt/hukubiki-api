@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 )
 
@@ -12,9 +13,10 @@ type jsonError struct {
 
 // Jsonの入力を受け取るヘルパ関数
 func jsonInput(w http.ResponseWriter, r *http.Request, in interface{}) {
-	// リクエストのヘッダをチェック
-	if r.Header.Get("Content-Type") != "application/json" {
-		http.Error(w, "Content-Type must be application/json", http.StatusBadRequest)
+	// リクエストのヘッダをチェックし、要件に合わなければエラーレスポンスをJsonで返す
+	if r.Header.Get("Content-Type") != "application/json; charset=utf-8" {
+		err := errors.New("Content-Type must be application/json")
+		jsonErrorOutput(w, http.StatusBadRequest, err)
 		return
 	}
 
