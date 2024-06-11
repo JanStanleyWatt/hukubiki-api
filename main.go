@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/JanStanleyWatt/hukubiki-api/api"
-	"github.com/JanStanleyWatt/hukubiki-api/route"
 )
 
 func main() {
@@ -13,8 +12,8 @@ func main() {
 		Handler: nil,
 	}
 
-	http.HandleFunc("/int64n", api.Int64n)
-	http.HandleFunc("/", route.ResponseUsage)
+	http.HandleFunc("/int64/n", api.Int64n)
+	http.HandleFunc("/", api.Usage)
 
 	server.ListenAndServe()
 }
