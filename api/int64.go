@@ -2,6 +2,7 @@ package api
 
 import (
 	"errors"
+	"log/slog"
 	"math/rand/v2"
 	"net/http"
 )
@@ -16,13 +17,13 @@ type requestInt64n struct {
 }
 
 func Int64n(w http.ResponseWriter, r *http.Request) {
-
 	// リクエストのボディをデコード、エラーがあればエラーレスポンスをJsonで返す
 	var in requestInt64n
 	if err := jsonInput(r, &in); err != nil {
 		jsonErrorOutput(w, http.StatusBadRequest, err)
 		return
 	}
+	slog.Debug("int64n", "seed", in.Seed, "max", in.Max)
 
 	// [0, Max)の範囲で乱数を生成。Maxが0以下の場合はエラーレスポンスを返す
 	if in.Max <= 0 {
@@ -33,6 +34,7 @@ func Int64n(w http.ResponseWriter, r *http.Request) {
 	out := responseInt64n{
 		RandomNumber: rand.New(rand.NewPCG(in.Seed[0], in.Seed[1])).Int64N(in.Max),
 	}
+	slog.Debug("int64n", "randomNumber", out.RandomNumber)
 
 	// レスポンスを返す
 	jsonOutput(w, out)

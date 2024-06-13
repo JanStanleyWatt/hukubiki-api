@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"errors"
+	"log/slog"
 	"net/http"
 )
 
@@ -25,6 +26,7 @@ func jsonInput(r *http.Request, in interface{}) error {
 		return err
 	}
 
+	slog.Debug("jsonInput", "header", r.Header, "body", in)
 	return nil
 }
 
@@ -32,12 +34,14 @@ func jsonInput(r *http.Request, in interface{}) error {
 func jsonOutput(w http.ResponseWriter, out interface{}) error {
 	// レスポンスヘッダを設定
 	w.Header().Set("Content-Type", CONTENT_TYPE_JSON)
+	w.WriteHeader(http.StatusOK)
 
 	// レスポンスボディをエンコード、エラーがあればエラーレスポンスを返す
 	if err := json.NewEncoder(w).Encode(out); err != nil {
 		return err
 	}
 
+	slog.Debug("jsonOutput", "header", w.Header(), "body", out)
 	return nil
 }
 
@@ -50,4 +54,6 @@ func jsonErrorOutput(w http.ResponseWriter, statusCode int, err error) {
 		StatusCode: statusCode,
 		Error:      err.Error(),
 	})
+
+	slog.Debug("error", "statusCode", statusCode, "desc", err)
 }
